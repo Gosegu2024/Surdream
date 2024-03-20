@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Surdream</title>
+    <link rel="icon" href="../img/surdream.ico" />
+    <!-- css -->
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/d5377ff581.js" crossorigin="anonymous"></script>
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- 설명 부분 예시를 슬라이드나 영상으로 한눈에 어케 쓰는지 볼 수 있게 -->
+    <!-- 주의사항 생성하기 버튼 밑에 -->
+    <header>
+      <div class="h_container">
+        <a href="#" class="logo"><img src="../img/surLogo.png" alt="써드림로고" /></a>
+        <a href="#" class="goHaedream">
+          <span>해드림 바로가기</span>
+          <img src="../img/haeLogo_big.png" alt="" />
+        </a>
+      </div>
+    </header>
+    <div class="container">
+      <div class="sur_info">
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam rerum veritatis architecto! Sit tempora cum rerum laborum molestiae
+        culpa assumenda aliquid, molestias porro, maiores eveniet ipsam ad delectus nam dignissimos?
+      </div>
+      <div class="topic"> 
+        <input class="input_topic" type="text" placeholder="주제를 입력해주세요" />
+      </div>
+      <!-- 변경된 부분: button 요소의 type 속성을 "submit"에서 "button"으로 변경 -->
+      <button class="submit" type="button">생성하기</button>
+      <div class="danger">아무래도 AI니까 맹신하지 말자</div>
+      <div class="result result1">
+        <h1>제안배경 및 필요성</h1>
+        <div class="resultText">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora provident nulla quo quae dicta? Omnis assumenda recusandae
+          voluptate enim tempore commodi amet officia, nobis veniam saepe rem. Corporis, ut facere?
+        </div>
+      </div>
+      <div class="result result2" >
+        <h1>개발목표</h1>
+        <div class="resultText">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora provident nulla quo quae dicta? Omnis assumenda recusandae
+          voluptate enim tempore commodi amet officia, nobis veniam saepe rem. Corporis, ut facere?
+        </div>
+      </div>
+      <div class="result result3">
+        <h1>개발내용</h1>
+        <div class="resultText">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora provident nulla quo quae dicta? Omnis assumenda recusandae
+          voluptate enim tempore commodi amet officia, nobis veniam saepe rem. Corporis, ut facere?
+        </div>
+      </div>
+      <div class="result result4">
+        <h1>기대효과 및 활용방안</h1>
+        <div class="resultText">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora provident nulla quo quae dicta? Omnis assumenda recusandae
+          voluptate enim tempore commodi amet officia, nobis veniam saepe rem. Corporis, ut facere?
+        </div>
+      </div>
+      <div class="result result5">
+        <h1>STP전략</h1>
+        <div class="resultText">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora provident nulla quo quae dicta? Omnis assumenda recusandae
+          voluptate enim tempore commodi amet officia, nobis veniam saepe rem. Corporis, ut facere?
+        </div>
+      </div>
+      <div class="result result6">
+        <h1>데이터 확보방안</h1>
+        <div class="resultText">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora provident nulla quo quae dicta? Omnis assumenda recusandae
+          voluptate enim tempore commodi amet officia, nobis veniam saepe rem. Corporis, ut facere?
+        </div>
+      </div>
+      <button class="download" type="button">다운로드</button>
+    </div>
+    <!-- container end -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector("button.submit").addEventListener("click", function() {
+          var topic = document.querySelector("input.input_topic").value;
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/process", true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              var response = xhr.responseText;
+              if (response === "success") {
+                console.log("세션에 데이터가 성공적으로 보내졌습니다.");
+              } else {
+                console.error("세션 전송 실패");
+              }
+            }
+          };
+          xhr.send(JSON.stringify({ "topic": topic }));
+        });
+      });
+    </script>
+  </body>
+
+</html>
