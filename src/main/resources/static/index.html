@@ -95,6 +95,8 @@
               var response = xhr.responseText;
               if (response === "success") {
                 console.log("세션에 데이터가 성공적으로 보내졌습니다.");
+                // 이후 페이지 업데이트
+                updateContent(topic);
               } else {
                 console.error("세션 전송 실패");
               }
@@ -103,6 +105,14 @@
           xhr.send(JSON.stringify({ "topic": topic }));
         });
       });
+
+      function updateContent(topic){// 일단 임시로 입력받은 주제로 다 채움
+        var resultTextElements = document.querySelectorAll('.resultText');
+        resultTextElements.forEach(function(element){
+          element.textContent = topic;
+        });
+      }
+
     </script>
   </body>
 
