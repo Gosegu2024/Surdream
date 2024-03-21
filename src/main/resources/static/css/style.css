@@ -7,8 +7,8 @@
   --main-color: #85b5f75d;
   --lightblue-color: #b4d3ff5f;
   --red-color: #ff402b;
-  --orange-color: #ff964abb;
-  --lightorange-color: #ff954a58;
+  --orange-color: #ff954a69;
+  --lightorange-color: #ffa76858;
   --font-color: #444;
   --placeholder-color: #b4b4b4;
   --gray-color: #dfdfdf96;
@@ -107,6 +107,24 @@ header {
   outline: none;
   box-sizing: border-box;
 }
+.topicLink {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--side-padding);
+  background-color: var(--lightorange-color);
+  border-radius: var(--border-radius-size);
+  color: var(--font-color);
+  margin-top: 30px;
+  border: 2px solid var(--orange-color);
+}
+.inputLink {
+  padding: 10px var(--side-padding);
+  border: none;
+  width: 100%;
+  border-radius: var(--border-radius-size);
+  outline: none;
+  box-sizing: border-box;
+}
 button {
   margin-top: 30px;
   border: none;
@@ -156,10 +174,10 @@ button:active {
 
 /* 모바일 사이즈 */
 @media (max-width: 768px) {
-  .goHaedream{
+  .goHaedream {
     font-size: var(--font-small);
   }
-  .result h1{
+  .result h1 {
     text-align: center;
   }
 }

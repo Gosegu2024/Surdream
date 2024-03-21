@@ -32,8 +32,13 @@
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam rerum veritatis architecto! Sit tempora cum rerum laborum molestiae
         culpa assumenda aliquid, molestias porro, maiores eveniet ipsam ad delectus nam dignissimos?
       </div>
-      <div class="topic"> 
+      <!-- 주제는 필수 입력  -->
+      <div class="topic">
         <input class="input_topic" type="text" placeholder="주제를 입력해주세요" />
+      </div>
+      <!-- 링크는 옵션 (링크 입력안해도 생성하기 누르면 만들어짐) -->
+      <div class="topicLink">
+        <input class="inputLink" type="text" placeholder="참고 할 자료 링크를 입력해주세요" />
       </div>
       <!-- 변경된 부분: button 요소의 type 속성을 "submit"에서 "button"으로 변경 -->
       <button class="submit" type="button">생성하기</button>
@@ -45,7 +50,7 @@
           voluptate enim tempore commodi amet officia, nobis veniam saepe rem. Corporis, ut facere?
         </div>
       </div>
-      <div class="result result2" >
+      <div class="result result2">
         <h1>개발목표</h1>
         <div class="resultText">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora provident nulla quo quae dicta? Omnis assumenda recusandae
@@ -84,36 +89,35 @@
     </div>
     <!-- container end -->
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        document.querySelector("button.submit").addEventListener("click", function() {
-          var topic = document.querySelector("input.input_topic").value;
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('button.submit').addEventListener('click', function () {
+          var topic = document.querySelector('input.input_topic').value;
           var xhr = new XMLHttpRequest();
-          xhr.open("POST", "/process", true);
-          xhr.setRequestHeader("Content-Type", "application/json");
-          xhr.onreadystatechange = function() {
+          xhr.open('POST', '/process', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
               var response = xhr.responseText;
-              if (response === "success") {
-                console.log("세션에 데이터가 성공적으로 보내졌습니다.");
+              if (response === 'success') {
+                console.log('세션에 데이터가 성공적으로 보내졌습니다.');
                 // 이후 페이지 업데이트
                 updateContent(topic);
               } else {
-                console.error("세션 전송 실패");
+                console.error('세션 전송 실패');
               }
             }
           };
-          xhr.send(JSON.stringify({ "topic": topic }));
+          xhr.send(JSON.stringify({ topic: topic }));
         });
       });
 
-      function updateContent(topic){// 일단 임시로 입력받은 주제로 다 채움
+      function updateContent(topic) {
+        // 일단 임시로 입력받은 주제로 다 채움
         var resultTextElements = document.querySelectorAll('.resultText');
-        resultTextElements.forEach(function(element){
+        resultTextElements.forEach(function (element) {
           element.textContent = topic;
         });
       }
-
     </script>
   </body>
-
 </html>
