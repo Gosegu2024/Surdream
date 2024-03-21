@@ -33,6 +33,7 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.5.4'
+	implementation 'org.apache.poi:poi-ooxml:5.2.2'
 
 }
 

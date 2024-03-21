@@ -88,8 +88,9 @@
       <button class="download" type="button">다운로드</button>
     </div>
     <!-- container end -->
-    <script>
+    <script>  
       document.addEventListener('DOMContentLoaded', function () {
+        // '생성하기'
         document.querySelector('button.submit').addEventListener('click', function () {
           var topic = document.querySelector('input.input_topic').value;
           var xhr = new XMLHttpRequest();
@@ -107,10 +108,19 @@
               }
             }
           };
+          // 일단 서버로 전송할 데이터에 'link' 추가.
           xhr.send(JSON.stringify({ topic: topic }));
         });
       });
-
+      // '다운로드'
+      document.querySelector('button.download').addEventListener('click', function(){
+        window.location.href = '/downloadDocx';
+      });
+      // 써드림 로고 눌렀을때 새로고침
+      document.querySelector('.logo').addEventListener('click', function(event){
+        event.preventDefault();
+        location.reload();
+      })
       function updateContent(topic) {
         // 일단 임시로 입력받은 주제로 다 채움
         var resultTextElements = document.querySelectorAll('.resultText');
