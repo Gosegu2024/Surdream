@@ -96,7 +96,7 @@ header {
   background-color: var(--lightblue-color);
   border-radius: var(--border-radius-size);
   color: var(--font-color);
-  margin-top: 30px;
+  margin-top: 10px;
   border: 2px solid var(--main-color);
 }
 .input_topic {
@@ -111,11 +111,11 @@ header {
   width: 100%;
   box-sizing: border-box;
   padding: var(--side-padding);
-  background-color: var(--lightorange-color);
+  background-color: var(--lightblue-color);
   border-radius: var(--border-radius-size);
   color: var(--font-color);
-  margin-top: 30px;
-  border: 2px solid var(--orange-color);
+  margin-top: 10px;
+  border: 2px solid var(--main-color);
 }
 .inputLink {
   padding: 10px var(--side-padding);
@@ -168,6 +168,11 @@ button:active {
   padding: var(--side-padding);
   border-radius: var(--border-radius-size);
   border: 2px solid var(--main-color);
+}
+.inputTitle {
+  width: 100%;
+  color: var(--font-color);
+  margin-top: 20px;
 }
 
 /* 반응형 */
