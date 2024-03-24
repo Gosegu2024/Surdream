@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Surdream</title>
-    <link rel="icon" href="../img/surdream.ico" />
+    <link rel="icon" th:href="@{/img/surdream.ico}" />
     <!-- css -->
-    <link rel="stylesheet" href="../css/reset.css" />
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/d5377ff581.js" crossorigin="anonymous"></script>
     <!-- google font -->
@@ -20,10 +20,10 @@
     <!-- 주의사항 생성하기 버튼 밑에 -->
     <header>
       <div class="h_container">
-        <a href="#" class="logo"><img src="../img/surLogo.png" alt="써드림로고" /></a>
+        <a href="#" class="logo"><img th:src="@{/img/surLogo.png}" alt="써드림로고" /></a>
         <a href="#" class="goHaedream">
           <span>해드림 바로가기</span>
-          <img src="../img/haeLogo_big.png" alt="" />
+          <img th:src="@{/img/haeLogo_big.png}" alt="" />
         </a>
       </div>
     </header>
@@ -33,10 +33,12 @@
         culpa assumenda aliquid, molestias porro, maiores eveniet ipsam ad delectus nam dignissimos?
       </div>
       <!-- 주제는 필수 입력  -->
+      <h1 class="inputTitle">기획서 주제</h1>
       <div class="topic">
         <input class="input_topic" type="text" placeholder="주제를 입력해주세요" />
       </div>
       <!-- 링크는 옵션 (링크 입력안해도 생성하기 누르면 만들어짐) -->
+      <h1 class="inputTitle">관련 자료 링크</h1>
       <div class="topicLink">
         <input class="inputLink" type="text" placeholder="참고 할 자료 링크를 입력해주세요" />
       </div>
@@ -88,7 +90,7 @@
       <button class="download" type="button">다운로드</button>
     </div>
     <!-- container end -->
-    <script>  
+    <script>
       document.addEventListener('DOMContentLoaded', function () {
         // '생성하기'
         document.querySelector('button.submit').addEventListener('click', function () {
@@ -113,14 +115,14 @@
         });
       });
       // '다운로드'
-      document.querySelector('button.download').addEventListener('click', function(){
+      document.querySelector('button.download').addEventListener('click', function () {
         window.location.href = '/downloadDocx';
       });
       // 써드림 로고 눌렀을때 새로고침
-      document.querySelector('.logo').addEventListener('click', function(event){
+      document.querySelector('.logo').addEventListener('click', function (event) {
         event.preventDefault();
         location.reload();
-      })
+      });
       function updateContent(topic) {
         // 일단 임시로 입력받은 주제로 다 채움
         var resultTextElements = document.querySelectorAll('.resultText');
