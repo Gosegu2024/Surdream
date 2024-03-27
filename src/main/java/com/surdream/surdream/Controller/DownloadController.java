@@ -1,6 +1,5 @@
 package com.surdream.surdream.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.surdream.surdream.DocumentService;
@@ -17,7 +16,6 @@ public class DownloadController { // docx로 다운받는 컨트롤러
 
     private final DocumentService documentService;
 
-    @Autowired
     public DownloadController(DocumentService documentService) {
         this.documentService = documentService;
     }

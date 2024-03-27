@@ -17,7 +17,6 @@
   </head>
   <body>
     <!-- 설명 부분 예시를 슬라이드나 영상으로 한눈에 어케 쓰는지 볼 수 있게 -->
-    <!-- 주의사항 생성하기 버튼 밑에 -->
     <header>
       <div class="h_container">
         <a href="#" class="logo"><img th:src="@{/img/surLogo.png}" alt="써드림로고" /></a>
@@ -35,12 +34,16 @@
       <!-- 주제는 필수 입력  -->
       <h1 class="inputTitle">기획서 주제</h1>
       <div class="topic">
-        <input class="input_topic" type="text" placeholder="주제를 입력해주세요" />
+        <input
+          class="input_topic"
+          type="text"
+          placeholder="ex) 기획서는 용언의 명사형으로 끝나는 문장으로 이루어져야 하고 비속어나 줄임말, 신조어 등은 들어가지 않아야 함"
+        />
       </div>
       <!-- 링크는 옵션 (링크 입력안해도 생성하기 누르면 만들어짐) -->
       <h1 class="inputTitle">관련 자료 링크</h1>
       <div class="topicLink">
-        <input class="inputLink" type="text" placeholder="참고 할 자료 링크를 입력해주세요" />
+        <input class="inputLink" type="text" placeholder="참고 할 자료 링크를 입력해주세요 (선택사항)" />
       </div>
       <!-- 변경된 부분: button 요소의 type 속성을 "submit"에서 "button"으로 변경 -->
       <button class="submit" type="button">생성하기</button>
