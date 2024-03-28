@@ -100,21 +100,21 @@
           var topic = document.querySelector('input.input_topic').value;
           var xhr = new XMLHttpRequest();
           xhr.open('POST', '/process', true);
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-              var response = xhr.responseText;
-              if (response === 'success') {
-                console.log('세션에 데이터가 성공적으로 보내졌습니다.');
-                // 이후 페이지 업데이트
-                updateContent(topic);
-              } else {
-                console.error('세션 전송 실패');
-              }
-            }
-          };
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+          // xhr.onreadystatechange = function () {
+          //   if (xhr.readyState == 4 && xhr.status == 200) {
+          //     var response = xhr.responseText;
+          //     if (response === 'success') {
+          //       console.log('세션에 데이터가 성공적으로 보내졌습니다.');
+          //       // 이후 페이지 업데이트
+          //       updateContent(topic);
+          //     } else {
+          //       console.error('세션 전송 실패');
+          //     }
+          //   }
+          // };
           // 일단 서버로 전송할 데이터에 'link' 추가.
-          xhr.send(JSON.stringify({ topic: topic }));
+          xhr.send('topic=' + encodeURIComponent(topic));
         });
       });
       // '다운로드'
