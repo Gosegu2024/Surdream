@@ -46,14 +46,16 @@
         <input class="inputLink" type="text" placeholder="참고 할 자료 링크를 입력해주세요 (선택사항)" />
       </div>
       <!-- 변경된 부분: button 요소의 type 속성을 "submit"에서 "button"으로 변경 -->
-      <button class="submit" type="button">생성하기</button>
+      <button class="submit" id="sendButton" type="button">생성하기</button>
       <div class="danger">아무래도 AI니까 맹신하지 말자</div>
       <div class="result result1">
         <h1>제안배경 및 필요성</h1>
-        <div class="resultText">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora provident nulla quo quae dicta? Omnis assumenda recusandae
-          voluptate enim tempore commodi amet officia, nobis veniam saepe rem. Corporis, ut facere?
-        </div>
+        <!-- thymeleaf 문법을 이용해서 python에서 온 output을 보여주기(미완) -->
+        <div th:if="${receivedData}">
+          <p>Received data from FastAPI:</p>
+          <p>Name: <span th:text="${receivedData.name}"></span></p>
+          <p>Description: <span th:text="${receivedData.description}"></span></p>
+      </div>
       </div>
       <div class="result result2">
         <h1>개발목표</h1>
@@ -94,13 +96,40 @@
     </div>
     <!-- container end -->
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        // '생성하기'
-        document.querySelector('button.submit').addEventListener('click', function () {
+      // 사용자가 입력한 topic python으로 보내는 코드
+      document.getElementById("sendButton").addEventListener("click", async function() {
+          // 실행중인 FastAPI 서버 주소
+          var url = 'http://localhost:8006/receive_json';
+          // 사용자가 입력한 topic 가져오기
           var topic = document.querySelector('input.input_topic').value;
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', '/process', true);
-          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+          // topic을 JSON 형식으로 data에 담기 (키 이름을 'topic'으로 변경)
+          var data = JSON.stringify({ topic: topic });
+          try {
+              // Python으로 전송
+              const response = await fetch(url, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: data
+              });
+              const responseData = await response.json();
+              console.log(responseData);
+          } catch (error) {
+              console.error('Error:', error);
+          }
+      });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // 원래 생성하기 버튼 누르면 실행되던 코드. 위의 토픽전송 코드를 쓰기위해 임시로 querySelector의 매개변수를 button.asdf로 바꿔둠
+        document.querySelector('button.asdf').addEventListener('click', function () {
+          var topic = document.querySelector('input.input_topic').value;
+          
+          // // session에 topic 저장하는 기능
+          // var xhr = new XMLHttpRequest();
+          // xhr.open('POST', '/process', true);
+          // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
           // xhr.onreadystatechange = function () {
           //   if (xhr.readyState == 4 && xhr.status == 200) {
           //     var response = xhr.responseText;
@@ -114,7 +143,7 @@
           //   }
           // };
           // 일단 서버로 전송할 데이터에 'link' 추가.
-          xhr.send('topic=' + encodeURIComponent(topic));
+          // xhr.send('topic=' + encodeURIComponent(topic));
         });
       });
       // '다운로드'
@@ -128,6 +157,7 @@
       });
       function updateContent(topic) {
         // 일단 임시로 입력받은 주제로 다 채움
+        // session에 저장 안해서 현재 작동 x
         var resultTextElements = document.querySelectorAll('.resultText');
         resultTextElements.forEach(function (element) {
           element.textContent = topic;

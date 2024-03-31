@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.servlet.http.HttpSession;
 
-// 세션 저장 확인용 컨트롤러. 차후에 삭제해도 무방함.
+// 세션 저장 확인용 컨트롤러.
 @Controller
 public class SessionController {
     @GetMapping("/checkSession")

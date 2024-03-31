@@ -16,6 +16,7 @@ import lombok.Setter;
 public class Topic {
     private Map<String, String> topic;
 
+    // topic controller를 이용하기 위해 만든 entity
     @SuppressWarnings("unchecked")
     public Topic(String jsonStr) {
         Gson gson = new Gson();

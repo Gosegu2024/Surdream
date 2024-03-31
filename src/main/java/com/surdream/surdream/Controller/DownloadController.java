@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+// 다운로드 기능. session을 이용한다는 설명을 들었음
 @Controller
 public class DownloadController { // docx로 다운받는 컨트롤러
 
