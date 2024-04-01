@@ -107,6 +107,13 @@ header {
   outline: none;
   box-sizing: border-box;
 }
+.topicInfo{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .topicLink {
   width: 100%;
   box-sizing: border-box;

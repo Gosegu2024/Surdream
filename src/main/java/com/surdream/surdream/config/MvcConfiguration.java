@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class MvcConfiguration implements WebMvcConfigurer {
 
+  @SuppressWarnings("null")
   @Override
   public void addResourceHandlers(final ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/**")
