@@ -85,55 +85,63 @@
     </div>
     <!-- container end -->
     <script th:inline="javascript">
-      // 사용자가 입력한 topic python으로 보내는 코드
+      const section_list = [
+          "제안배경 및 필요성",
+          "개발목표",
+          "개발내용",
+          "기대효과 및 활용방안",
+          "STP전략",
+          "데이터 확보방안",
+      ];
+  
       document.getElementById("sendButton").addEventListener("click", async function() {
-          // 실행중인 FastAPI 서버 주소
           const url = 'http://localhost:8006/receive_json';
-          // 사용자가 입력한 topic 가져오기
           let topic = document.querySelector('input.input_topic').value;
-          // topic을 JSON 형식으로 data에 담기 (키 이름을 'topic'으로 변경)
-          let data = JSON.stringify({ topic: topic });
-          try {
-              // Python으로 전송
-              const response = await fetch(url, {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: data
+  
+          // 비동기 처리 시작
+          for (let section of section_list) {
+              let data = JSON.stringify({ 
+                  topic: topic,
+                  section: section
               });
-              const responseData = await response.json();
-              $.ajax({
-                type:'POST',
-                url:"/receiveData",
-                contentType:"application/json",
-                data:JSON.stringify({"data":"dummy"}),
-                success: function(response){
-                  let section = response.section;
-                  let result = response.result;
-
-                  appendResult(section,result);
-                },
-                error: function(error){
-                  console.log(error);
-                }
-              })
-          } catch (error) {
-              console.error('Error:', error);
+  
+              try {
+                  // 서버에 요청 보내기
+                  let response = await fetch(url, {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: data
+                  });
+                  console.log("서버 응답 확인 : "+response.ok)
+                  // 서버 응답 확인
+                  if (response.ok) {
+                      let result = await response.json();
+                      let processedResult = result;
+                      console.log("section : "+ section);
+                      console.log("result : "+ processedResult);
+                      appendResult(section, processedResult); // 결과 처리
+                      console.log('Data sent and processed successfully');
+                  } else {
+                      console.error('Server responded with error:', response.statusText);
+                  }
+              } catch (error) {
+                  console.error('Error:', error);
+              }
           }
       });
-        
-
       function appendResult(section,result){
+        console.log("html에 output 삽입하기 시작");
         let findH1 = $("h1:contains('" + section + "')");
         let resultHtml = "<p>" + result + "</p>";
         findH1.closest(".result").find(".resultText").append(result)
       }
 
       // 다운로드
-      document.querySelector('button.download').addEventListener('click', function () {
-        window.location.href = '/downloadDocx';
-      });
+      // document.querySelector('button.download').addEventListener('click', function () {
+      //   window.location.href = '/downloadDocx';
+      // });
     </script>
   </body>
 </html>
