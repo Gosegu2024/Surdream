@@ -106,6 +106,7 @@ header {
   border-radius: var(--border-radius-size);
   outline: none;
   box-sizing: border-box;
+  font-size: 16px;
 }
 .topicInfo{
   width: 100%;
@@ -164,7 +165,7 @@ button:active {
 .result {
   width: 100%;
   margin-top: 30px;
-  padding: var(--side-padding);
+  padding: 30px var(--side-padding);
   box-sizing: border-box;
 }
 .resultText {
@@ -182,12 +183,40 @@ button:active {
   margin-top: 20px;
 }
 
+.loading {
+  position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border: 3px solid #ccc;
+    border-top-color: #000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+      }
+      
+      }
+
 /* 반응형 */
 
 /* 모바일 사이즈 */
 @media (max-width: 768px) {
   .goHaedream {
     font-size: var(--font-small);
+    display: none;
   }
   .result h1 {
     text-align: center;
