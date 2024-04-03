@@ -45,12 +45,12 @@
       <!-- 링크는 옵션 (링크 입력안해도 생성하기 누르면 만들어짐) -->
       <h1 class="inputTitle">관련 자료 링크</h1>
       <div class="topicLink">
-        <input class="inputLink" type="text" placeholder="참고 할 자료 링크를 입력해주세요 (선택사항)" />
+          <input class="inputLink" type="text" placeholder="참고 할 자료 링크를 입력해주세요 (선택사항)"/>
       </div>
       <!-- 변경된 부분: button 요소의 type 속성을 "submit"에서 "button"으로 변경 -->
-      <button class="submit" id="sendButton" type="reset">생성하기</button>
+      <button class="submit" id="sendButton" type="button">생성하기</button>
       </form>
-      <div class="danger">아무래도 AI니까 맹신하지 말자</div>
+      <div class="danger">Surdream can make mistakes.</div>
       <div class="result result1">
         <h1>제안배경 및 필요성</h1>
         <div class="resultText">
@@ -95,14 +95,30 @@
       ];
   
       document.getElementById("sendButton").addEventListener("click", async function() {
-        const url = 'http://localhost:8006/receive_json';
+        // 사용자가 입력한 값 가져오기
+        let inputLink = document.querySelector('.inputLink');
         let topic = document.querySelector('input.input_topic').value;
-      
+
+        // 공백 제거 후 다시 변수에 할당
+        let url_value = inputLink.value.trim();
+
+        // 사용자가 입력한 url이 있다면 엔드포인트 변경
+            if (url_value) {
+                // inputLink에 값이 들어왔을 때 실행되는 코드
+                console.log("inputLink에 값이 있습니다.");
+                url = 'http://localhost:8006/receive_rag';
+            } else {
+                // inputLink에 값이 없을 때 실행되는 코드
+                console.log("inputLink에 값이 없습니다.");
+                url = 'http://localhost:8006/receive_json';
+            }
+
         // 각 fetch 요청을 병렬로 실행하기 위해 Promise 배열 생성
         const fetchPromises = section_list.map(async section => {
             let data = JSON.stringify({ 
                 topic: topic,
-                section: section
+                section: section,
+                input_link: url_value
             });
 
         try {
@@ -120,6 +136,7 @@
                 let result = await response.json();
                 console.log("section : "+ section);
                 console.log("result : "+ result);
+                console.log("input_link : "+ url_value);
                 appendResult(section, result); // 결과 처리
                 console.log('Data sent and processed successfully');
             } else {
@@ -143,9 +160,9 @@
       }
 
       // 다운로드
-      // document.querySelector('button.download').addEventListener('click', function () {
-      //   window.location.href = '/downloadDocx';
-      // });
+      document.querySelector('button.download').addEventListener('click', function () {
+        window.location.href = '/downloadDocx';
+      });
     </script>
   </body>
 </html>
