@@ -1,4 +1,4 @@
-package com.surdream.surdream.Controller;
+package com.surdream.surdream.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ContentDisposition;
