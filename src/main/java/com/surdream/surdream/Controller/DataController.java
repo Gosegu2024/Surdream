@@ -1,4 +1,4 @@
-package com.surdream.surdream.controller;
+package com.surdream.surdream.Controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

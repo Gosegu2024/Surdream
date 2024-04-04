@@ -1,27 +1,47 @@
 package com.surdream.surdream;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.*;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-
-import jakarta.servlet.http.HttpSession;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
-public class DocumentService { // 문서 맹그는 기능
+public class DocumentService {
 
-    public byte[] createDocumentFromSession(HttpSession session) throws Exception {
-        try (XWPFDocument doc = new XWPFDocument()) {
-            XWPFParagraph p = doc.createParagraph();
-            String topic = session.getAttribute("topic") != null ? session.getAttribute("topic").toString() : "주제 없음";
-            // 여기에 다른 세션 데이터 기반으로 문서 내용 추가하기
+    public byte[] createCustomDocument(HashMap<String, String> sectionData) throws Exception {
+        InputStream templateInputStream = new ClassPathResource("templates/기획서양식.docx").getInputStream();
+        XWPFDocument document = new XWPFDocument(templateInputStream);
 
-            p.createRun().setText("주제 : " + topic);
-            // 모델 연결되고 차후에 내용 추가하기.
+        // 표와 단락을 검색하여 적절한 데이터를 삽입합니다.
+        for (XWPFTable table : document.getTables()) {
+            for (XWPFTableRow row : table.getRows()) {
+                List<XWPFTableCell> cells = row.getTableCells();
+                for (int i = 0; i < cells.size(); i++) {
+                    XWPFTableCell cell = cells.get(i);
+                    String cellText = cell.getText();
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            doc.write(baos);
-            return baos.toByteArray();
+                    // "제안 배경 및 필요성" 및 "기대효과 및 활용방안" 섹션의 데이터를 옆 셀에 삽입
+                    if ("제안배경 및 필요성".equals(cellText) || "기대효과 및 활용방안".equals(cellText) || "STP전략".equals(cellText)
+                            || "개발목표".equals(cellText) || "개발내용".equals(cellText) || "데이터 확보방안".equals(cellText)) {
+                        if (i + 1 < cells.size()) {
+                            XWPFTableCell nextCell = cells.get(i + 1);
+                            replaceText(nextCell, sectionData.getOrDefault(cellText, "내용 없음"));
+                        }
+                    }
+                }
+            }
         }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        document.write(outputStream);
+        return outputStream.toByteArray();
+    }
+
+    private void replaceText(XWPFTableCell cell, String newText) {
+        cell.removeParagraph(0);
+        cell.setText(newText);
     }
 }
