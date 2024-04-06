@@ -145,7 +145,7 @@
     function appendResult(any_section, result){
       let findH1 = $("h1:contains('" + any_section + "')");
       let resultHtml = "<p>" + result + "</p>";
-      findH1.closest(".result").find(".resultText").append(result)
+      findH1.closest(".result").find(".resultText").append(resultHtml)
       findH1.closest(".result").find(".resultText > .loading").remove();
       // 세션에 저장
       sessionStorage.setItem(any_section, result);

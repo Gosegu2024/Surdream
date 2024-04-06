@@ -1,5 +1,8 @@
 # pip install langchain
 # pip install langchain-openai
+# pip install -U langchain-community tavily-python
+# pip install beautifulsoup4
+# pip install langchainhub
 
 import os
 from langchain_openai import ChatOpenAI
@@ -19,8 +22,18 @@ from pydantic import BaseModel
 
 # cors 설정을 위해서 import
 from fastapi.middleware.cors import CORSMiddleware
+# json 반환을 위해서 import
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+
+# ---------- Tavily ----------
+from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain.tools.retriever import create_retriever_tool
+from langchain import hub
+from langchain.agents import create_openai_functions_agent
+from langchain.agents import AgentExecutor
+
+
 
 
 app = FastAPI()
@@ -103,29 +116,68 @@ async def execute_retrival(topic_section: TopicSection):
 
     print("Received text:", topic, section, url)
 
-    loader = WebBaseLoader(url)
-    docs = loader.load()
-    embeddings = OpenAIEmbeddings()
-    print("web base loader 실행 완료")
+    async def retriver_rag():
+        loader = WebBaseLoader(url)
+        docs = loader.load()
+        embeddings = OpenAIEmbeddings()
+        print("web base loader 실행 완료")
 
-    # 모델 토큰 수 제한 문제 해결 위해 분할
-    text_splitter = RecursiveCharacterTextSplitter()
-    documents = text_splitter.split_documents(docs)
+        # 모델 토큰 수 제한 문제 해결 위해 분할
+        text_splitter = RecursiveCharacterTextSplitter()
+        documents = text_splitter.split_documents(docs)
+        # 텍스트 → 벡터 임베딩 변환
+        vector = FAISS.from_documents(documents, embeddings)
+        print("텍스트 벡터 임베딩 변환 완료")
 
-    # 텍스트 → 벡터 임베딩 변환
-    vector = FAISS.from_documents(documents, embeddings)
-    print("텍스트 벡터 임베딩 변환 완료")
+        # 검색 체인 생성
+        prompt = ChatPromptTemplate.from_template(
+            """context:<context>{context}</context>
+               Question: {input}"""
+            )
+        document_chain = create_stuff_documents_chain(llm, prompt)
 
-    # 검색 체인 생성
-    prompt = ChatPromptTemplate.from_template(
-        """context:<context>{context}</context>
-                                                Question: {input}"""
-    )
-    document_chain = create_stuff_documents_chain(llm, prompt)
+        # 가장 관련성이 높은 문서를 동적으로 선택하고 전달
+        retriever = vector.as_retriever()
+        retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
-    # 가장 관련성이 높은 문서를 동적으로 선택하고 전달
-    retriever = vector.as_retriever()
-    retrieval_chain = create_retrieval_chain(retriever, document_chain)
+        result = await tavily_search(retriever)
+        return result
+
+    # tavily api를 이용해서 search
+    async def tavily_search(retriever):
+        # Tavily search
+        retriever_tool = create_retriever_tool(
+        retriever,
+        "information_search",
+        "you must use this tool!",
+        )
+
+        # 도구 생성
+        search = TavilySearchResults()
+        tools = [retriever_tool, search]
+
+        # Get the prompt to use - you can modify this!
+        prompt = hub.pull("hwchase17/openai-functions-agent")
+
+        agent = create_openai_functions_agent(llm, tools, prompt)
+        agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+        result = await invoke_tavily(agent_executor)
+
+        return result
+        
+
+
+    async def invoke_tavily(agent_executor):
+        return await agent_executor.ainvoke(
+                {
+                "input": f"""프로젝트 주제 {topic}에 대한 기획서의 {section}부분을 기획서 형식으로 작성해줘. 기획서에 들어가는 문장은 존댓말을 쓰면 안돼. 
+                최신 자료를 바탕으로 확실한 근거를 가지고 작성해주고 자료의 출처도 마지막에 적어줘. 결과물에는 개행표시는 쓰지말고 <br>태그를 넣어줘. 
+                br태그의 위치는 소제목 다음에 있으면 좋겠고 *표시도 빼주면 좋겠어.
+                소제목은 b태그로 감싸줘"""
+                }
+            )
+    
 
     async def invoke_rag():
         return await retrieval_chain.ainvoke(
@@ -135,11 +187,11 @@ async def execute_retrival(topic_section: TopicSection):
             }
         )
 
-    result = await invoke_rag()
-
-    result = result["answer"]
+    result = await retriver_rag()
 
     print(result)
+
+    result = result["output"]
 
     return JSONResponse(content=jsonable_encoder(result))
 
