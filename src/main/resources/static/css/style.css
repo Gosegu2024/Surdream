@@ -132,6 +132,7 @@ header {
   border-radius: var(--border-radius-size);
   outline: none;
   box-sizing: border-box;
+  font-size: 15px;
 }
 button {
   margin-top: 30px;
@@ -165,7 +166,6 @@ button:active {
 .result {
   width: 100%;
   margin-top: 30px;
-  padding: 30px var(--side-padding);
   box-sizing: border-box;
 }
 .resultText {
