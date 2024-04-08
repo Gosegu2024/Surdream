@@ -84,11 +84,11 @@
     <script th:inline="javascript">
       const section_list = [
         "제안배경 및 필요성",
-        "개발목표",
-        "개발내용",
-        "기대효과 및 활용방안",
-        "STP전략",
-        "데이터 확보방안",
+        // "개발목표",
+        // "개발내용",
+        // "기대효과 및 활용방안",
+        // "STP전략",
+        // "데이터 확보방안",
       ];
   
       document.getElementById("sendButton").addEventListener("click", async function() {
@@ -148,7 +148,18 @@
       findH1.closest(".result").find(".resultText").append(resultHtml)
       findH1.closest(".result").find(".resultText > .loading").remove();
       // 세션에 저장
-      sessionStorage.setItem(any_section, result);
+      let result_1 = result.replace(/<br>/g, '');
+      let result_2 = result_1.replace(/<b>/g, '');
+      let result_3 = result_2.replace(/<\/b>/g, '');
+      let result_4 = result_3.replace(/<\/ul>/g, '');
+      let result_5 = result_4.replace(/<ul>/g, '');
+      let result_6 = result_5.replace(/<li>/g, '');
+      let result_7 = result_6.replace(/<\/li>/g, '');
+      let result_8 = result_7.replace(/<\/a>/g, '');
+      let result_9 = result_8.replace(/<a/g, '');
+      let result_10 = result_9.replace(/>/g, '');
+
+      sessionStorage.setItem(any_section, result_10);
     }
 
     // 다운로드

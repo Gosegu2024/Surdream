@@ -14,6 +14,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
+from langchain_community.document_loaders import DirectoryLoader
 
 # ---------- FastAPI -----------
 import uvicorn
@@ -33,7 +34,7 @@ from langchain import hub
 from langchain.agents import create_openai_functions_agent
 from langchain.agents import AgentExecutor
 
-
+import haedream as hd
 
 
 app = FastAPI()
@@ -75,7 +76,7 @@ async def receive_text(topic_section: TopicSection):
     # 전송된 텍스트를 출력
     print("Received text:", topic, section)
 
-    llm = ChatOpenAI(model="gpt-4-turbo-preview")
+    llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
 
     # 출력 구문 분석기(채팅 메시지를 문자열로 변환)
     output_parser = StrOutputParser()
@@ -164,6 +165,18 @@ async def execute_retrival(topic_section: TopicSection):
 
         result = await invoke_tavily(agent_executor)
 
+        result = result["output"]
+
+        # log test(오류남)
+        # runner = hd.ModelRunner()
+        # modelName = "test_model"
+        # projectName = "테스트 프로젝트"
+        # inputData = topic
+        # apiKey = "857U1PNndKw*mNsj1GZK" # Test api
+        # outputData = result
+
+        # runner.run_model(modelName, projectName, inputData, apiKey, outputData)
+
         return result
         
 
@@ -172,9 +185,9 @@ async def execute_retrival(topic_section: TopicSection):
         return await agent_executor.ainvoke(
                 {
                 "input": f"""프로젝트 주제 {topic}에 대한 기획서의 {section}부분을 기획서 형식으로 작성해줘. 기획서에 들어가는 문장은 존댓말을 쓰면 안돼. 
-                최신 자료를 바탕으로 확실한 근거를 가지고 작성해주고 자료의 출처도 마지막에 적어줘. 결과물에는 개행표시는 쓰지말고 <br>태그를 넣어줘. 
+                최신 자료를 바탕으로 확실한 근거를 가지고 작성해주고 자료의 출처도 마지막에 적어줘. 출처는 a태그로 감싸줘. {section}이 제안배경 및 필요성이라면 {topic}에 대한 업계 동향도 넣어줘. 결과물에는 개행표시는 쓰지말고 <br>태그를 넣어줘. 
                 br태그의 위치는 소제목 다음에 있으면 좋겠고 *표시도 빼주면 좋겠어.
-                소제목은 b태그로 감싸줘"""
+                소제목은 b태그로 감싸줘."""
                 }
             )
     
@@ -190,8 +203,6 @@ async def execute_retrival(topic_section: TopicSection):
     result = await retriver_rag()
 
     print(result)
-
-    result = result["output"]
 
     return JSONResponse(content=jsonable_encoder(result))
 
