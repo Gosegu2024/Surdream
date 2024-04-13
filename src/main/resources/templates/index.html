@@ -18,7 +18,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
   </head>
   <body>
-    <!-- 설명 부분 예시를 슬라이드나 영상으로 한눈에 어케 쓰는지 볼 수 있게 -->
     <header>
       <div class="h_container">
         <a href="#" class="logo"><img th:src="@{/img/surLogo.png}" alt="써드림로고" /></a>
@@ -38,7 +37,7 @@
         <input
           class="input_topic"
           type="text"
-          placeholder="ex) 기획서는 용언의 명사형으로 끝나는 문장으로 이루어져야 하고 비속어나 줄임말, 신조어 등은 들어가지 않아야 함"
+          placeholder="입력 예시) 생성형 LLM을 이용한 작문 서비스에 대한 기획서를 생성해줘"
         />
       </div>
       <h1 class="inputTitle">관련 자료 링크</h1>
@@ -47,7 +46,7 @@
       </div>
       <button class="submit" id="sendButton" type="button">생성하기</button>
       </form>
-      <div class="danger">Surdream can make mistakes.</div>
+      <div class="danger">AI가 생성하는 결과물이기 때문에 내용을 꼭 확인해주세요.</div>
       <div class="result result1">
         <h1>제안배경 및 필요성</h1>
         <div class="resultText">
@@ -100,7 +99,6 @@
         let topic = document.querySelector('input.input_topic').value;
         let url = 'http://localhost:8006/receive_rag'
         let url_value = inputLink.value.trim();
-        console.log(url_value);
 
         if (url_value == "") {
             url_value = 'http://google.com';
@@ -134,19 +132,15 @@
         }
     });
 
-    // Promise.all()을 사용하여 모든 fetch 요청이 완료될 때까지 기다림
     await Promise.all(fetchPromises);
     });
-
-
-
 
     function appendResult(any_section, result){
       let findH1 = $("h1:contains('" + any_section + "')");
       let resultHtml = "<p>" + result + "</p>";
       findH1.closest(".result").find(".resultText").append(resultHtml)
       findH1.closest(".result").find(".resultText > .loading").remove();
-      // 세션에 저장(+전처리)
+
       let result_1 = result.replace(/<br>/g, '');
       let result_2 = result_1.replace(/<b>/g, '');
       let result_3 = result_2.replace(/<\/b>/g, '');
@@ -163,39 +157,35 @@
       sessionStorage.setItem(any_section, result_12);
     }
 
-    // 다운로드
     document.querySelector('button.download').addEventListener('click', function () {
-  // Session Storage에서 데이터를 읽어옵니다.
-  let sectionData = {};
-  for (let i = 0; i < sessionStorage.length; i++) {
-    const key = sessionStorage.key(i);
-    sectionData[key] = sessionStorage.getItem(key);
-  }
+      let sectionData = {};
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        sectionData[key] = sessionStorage.getItem(key);
+      }
 
-  // AJAX 요청으로 서버에 데이터를 전송합니다.
-  fetch('/downloadDocx', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(sectionData),
-  })
-  .then(response => {
-    if (response.ok) return response.blob();
-    throw new Error('Network response was not ok.');
-  })
-  .then(blob => {
-    // 문서를 다운로드합니다.
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = "SurdreamDocument.docx";
-    document.body.appendChild(a);
-    a.click();
-    window.URL.revokeObjectURL(url);
-  })
-  .catch(error => console.error('Error:', error));
-});
+      fetch('/downloadDocx', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sectionData),
+      })
+      .then(response => {
+        if (response.ok) return response.blob();
+        throw new Error('Network response was not ok.');
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = "SurdreamDocument.docx";
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => console.error('Error:', error));
+    });
 
     </script>
   </body>
