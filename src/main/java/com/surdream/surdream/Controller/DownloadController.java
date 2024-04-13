@@ -1,6 +1,5 @@
 package com.surdream.surdream.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,11 +13,10 @@ import com.surdream.surdream.DocumentService;
 import java.util.HashMap;
 
 @Controller
-public class DownloadController { // docx로 다운받는 컨트롤러
+public class DownloadController { 
 
     private final DocumentService documentService;
 
-    @Autowired
     public DownloadController(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -26,11 +24,9 @@ public class DownloadController { // docx로 다운받는 컨트롤러
     @PostMapping("/downloadDocx")
     public ResponseEntity<byte[]> downloadDocument(@RequestBody HashMap<String, String> sectionData) {
         try {
-            // 문서 생성
             byte[] documentBytes = documentService.createCustomDocument(sectionData);
 
-            // 문서명 설정
-            String fileName = "CustomDocument.docx";
+            String fileName = "써드림_기획서.docx";
             ContentDisposition contentDisposition = ContentDisposition.builder("attachment")
                     .filename(fileName)
                     .build();
