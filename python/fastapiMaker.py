@@ -3,6 +3,7 @@
 # pip install -U langchain-community tavily-python
 # pip install beautifulsoup4
 # pip install langchainhub
+# pip install unstructured
 
 import os
 from langchain_openai import ChatOpenAI
@@ -15,6 +16,7 @@ from langchain_community.vectorstores import FAISS
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain_community.document_loaders import DirectoryLoader
+from langchain_community.document_loaders import TextLoader
 
 # ---------- FastAPI -----------
 import uvicorn
@@ -118,7 +120,7 @@ async def execute_retrival(topic_section: TopicSection):
 
     async def retriver_rag():
         loader = WebBaseLoader(url)
-        # loader = DirectoryLoader(".", glob="data/*.txt", show_progress=True)
+        #loader = DirectoryLoader(".", glob="python\data/*.txt", show_progress=True)
         docs = loader.load()
 
         print(f"문서의 수: {len(docs)}")
