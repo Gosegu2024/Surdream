@@ -196,4 +196,4 @@ async def execute_retrival(topic_section: TopicSection):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8006)
+    uvicorn.run(app, host="34.64.87.247", port=8006)
