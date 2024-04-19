@@ -1,15 +1,30 @@
-# Surdream
+# 👨‍👨‍👧‍👦 교육기관용 프로젝트 기획서 생성 LLM <써드림> 👨‍👨‍👧‍👦
 
-써드림 레파지토리 입니다.<br>
+개발 일정 : **2024.03.15 ~ 2024.04.15**
+
+사용언어 : <img src="https://img.shields.io/badge/java-007396?style=flat-square&logo=java&logoColor=white"/> <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black"/> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"/>
+
+사용 프레임워크 & 라이브러리 : <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"> <img src="https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=Gradle&logoColor=white"> <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=flat-square&logo=Thymeleaf&logoColor=white"> <img src="https://img.shields.io/badge/jQuery-0769AD?style=flat-square&logo=jQuery&logoColor=white"> </br></br>
+
+> 주제만 입력하면 기획서를 생성해주는 써드림! 👉 (주소) </br></br>
+
+[써드림 메인 사진]</br></br>
+
+## 📃 Description
+아무래도 쓰기 좀 귀찮은 프로젝트 기획서를 대신 작성해주는 써드림입니다. </br>
+내가 생성하고 싶은 기획서의 주제를 입력하고 생성하기를 눌러보세요! 써드림이 최신 업계동향까지 참고해 기획서를 생성해드립니다.
+혹시 참고하고 싶은 뉴스기사나 논문이 있다면 주소도 함께 입력하고 생성하기를 누르시면 됩니다.
+
+## Demo
+[써드림 예시 사진 1] [써드림 예시 사진 2]
+
+## ⭐ Main Feature
+### 기획서 생성 기능
+  - 프로젝트 기획서 생성 기능
+### 기획서 다운로드 기능
+  - 생성된 기획서 docx 파일로 다운받기 기능
+
+## 🔨 Server Architecture
+[아키텍쳐 사진]
 
 
-## 커밋규칙!
-
-1. 9시에 등원하면 <b>풀부터</b> 꼭! 받기
-2. <b>본인이 맡은 파트만 개발/수정</b>해주세요 특히 불가피하게 다른 파트의 수정이 필요하다면 팀장이나 담당 팀원과 꼭 상의하셔야 합니다
-3. 기본순서는 <b>파일작업 -> add -> commit -> push </b>순서 입니다.
-4. 본인이 commit해도 되겠다 싶은 파일은 마음대로 add하거나 unstaging 하셔도 되지만 commit은 신중하게 해주세요 <b>최종으로 push에 올릴 것만 commit</b> 한다는 생각으로 작업해주세요
-5. commit 메세지에는 어떤 작업을 했는지, 어떤 기능을 만들었는지, 어떤것을 왜 수정했는지 등, <b>how가 아닌 what,why에 초점을 맞춰서 작성</b>해주세요
-6. 따로 리드미 파일을 만들어 더 상세히 설명 적으셔도 됩니다
-7. push는 저녁 5시 30분에 (월요일은 4시 30분) 일괄로 해서 다른 팀원들이 commit한 부분도 살펴보고 merge conflict가 발생한다면 그것도 해결하는 시간을 가지겠습니다
-8. **제일 중요** 위 사항을 지키지 않아서 발생하는 모든 문제는 본인이 감당하셔야 합니다 
