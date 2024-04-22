@@ -73,7 +73,7 @@ async def receive_text(topic_section: TopicSection):
     topic = topic_section.topic
     section = topic_section.section
 
-    llm = ChatOpenAI(model="gpt-4-turbo-preview")
+    llm = ChatOpenAI(model="gpt-3.5-turbo")
 
     output_parser = StrOutputParser()
 
