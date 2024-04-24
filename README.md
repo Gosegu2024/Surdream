@@ -8,7 +8,7 @@
 
 사용 API : <img src="https://img.shields.io/badge/fastapi-009688?style=flat-square&logo=fastapi&logoColor=white">  GPT4, LangChain, Tavily API </br></br>
 
-> 주제만 입력하면 기획서를 생성해주는 써드림! 👉 (주소) </br></br>
+> 주제만 입력하면 기획서를 생성해주는 써드림! 👉 [써드림 바로가기](https://surdream-pafljma3ia-du.a.run.app) </br></br>
 
 ![써드림 로고](./써드림_메인.png)</br></br>
 
