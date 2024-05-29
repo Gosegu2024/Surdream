@@ -5,6 +5,10 @@
 # pip install beautifulsoup4
 # pip install langchainhub
 # pip install unstructured
+# pip install uvicorn
+# pip install "fastapi[all]"
+# pip install python-dotenv
+# pip install pip install faiss-cpu
 
 import os
 from langchain_openai import ChatOpenAI
@@ -14,6 +18,9 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # 텍스트 메타데이터용 코드
 # from langchain_community.document_loaders import DirectoryLoader
@@ -34,10 +41,10 @@ from langchain import hub
 from langchain.agents import create_openai_functions_agent
 from langchain.agents import AgentExecutor
 
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_API_KEY"] = ""
-os.environ["OPENAI_API_KEY"] = ""
-os.environ["TAVILY_API_KEY"] = ""
+os.environ["LANGCHAIN_TRACING_V2"] = os.getenv("LANGCHAIN_TRACING_V2")
+os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+os.environ["TAVILY_API_KEY"] = os.getenv("TAVILY_API_KEY")
 
 app = FastAPI()
 
@@ -63,7 +70,7 @@ class Result(BaseModel):
 
 @app.get("/")
 def root():
-    return {"root"}
+    return "Welcome to root"
 
 
 # 기획서 생성
@@ -102,7 +109,7 @@ async def receive_text(topic_section: TopicSection):
 @app.post("/receive_rag")
 async def execute_retrival(topic_section: TopicSection):
 
-    llm = ChatOpenAI(model="gpt-4-turbo-preview")
+    llm = ChatOpenAI(model="gpt-3.5-turbo")
 
     topic = topic_section.topic
     section = topic_section.section
