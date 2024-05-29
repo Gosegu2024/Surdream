@@ -15,7 +15,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet" />
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <header>
@@ -29,164 +33,146 @@
     </header>
     <div class="container">
       <div class="sur_info">
-        써드림은 입력한 주제에 맞는 내용으로 기획서를 생성해드립니다. 어떤 주제로 기획서를 생성하고 싶으신가요? 생각하신 주제를 주제 입력 칸에 작성 해주시고 관련 자료에 대한 링크가 있다면 링크 입력 칸에 링크도 입력해주세요!
+        써드림은 입력한 주제에 맞는 내용으로 기획서를 생성해드립니다. 어떤 주제로 기획서를 생성하고 싶으신가요? 생각하신 주제를 주제 입력
+        칸에 작성 해주시고 관련 자료에 대한 링크가 있다면 링크 입력 칸에 링크도 입력해주세요!
       </div>
       <form class="topicInfo">
-      <h1 class="inputTitle">기획서 주제</h1>
-      <div class="topic">
-        <input
-          class="input_topic"
-          type="text"
-          placeholder="입력 예시) 생성형 LLM을 이용한 작문 서비스에 대한 기획서를 생성해줘"
-        />
-      </div>
-      <h1 class="inputTitle">관련 자료 링크</h1>
-      <div class="topicLink">
-          <input class="inputLink" type="text" placeholder="참고 할 자료 링크를 입력해주세요 (선택사항)"/>
-      </div>
-      <button class="submit" id="sendButton" type="button">생성하기</button>
+        <h1 class="inputTitle">기획서 주제</h1>
+        <div class="topic">
+          <input class="input_topic" type="text" placeholder="입력 예시) 생성형 LLM을 이용한 작문 서비스에 대한 기획서를 생성해줘" />
+        </div>
+        <h1 class="inputTitle">관련 자료 링크</h1>
+        <div class="topicLink">
+          <input class="inputLink" type="text" placeholder="참고 할 자료 링크를 입력해주세요 (선택사항)" />
+        </div>
+        <button class="submit" id="sendButton" type="button">생성하기</button>
       </form>
       <div class="danger">AI가 생성하는 결과물이기 때문에 내용을 꼭 확인해주세요.</div>
       <div class="result result1">
         <h1>제안배경 및 필요성</h1>
-        <div class="resultText">
-        </div>
+        <div class="resultText"></div>
       </div>
       <div class="result result2">
         <h1>개발목표</h1>
-        <div class="resultText">
-        </div>
+        <div class="resultText"></div>
       </div>
       <div class="result result3">
         <h1>개발내용</h1>
-        <div class="resultText">
-        </div>
+        <div class="resultText"></div>
       </div>
       <div class="result result4">
         <h1>기대효과 및 활용방안</h1>
-        <div class="resultText">
-        </div>
+        <div class="resultText"></div>
       </div>
       <div class="result result5">
         <h1>STP전략</h1>
-        <div class="resultText">
-        </div>
+        <div class="resultText"></div>
       </div>
       <div class="result result6">
         <h1>데이터 확보방안</h1>
-        <div class="resultText">
-        </div>
+        <div class="resultText"></div>
       </div>
       <button class="download" type="button">다운로드</button>
     </div>
     <!-- container end -->
     <script th:inline="javascript">
-      const section_list = [
-        "제안배경 및 필요성",
-        "개발목표",
-        "개발내용",
-        "기대효과 및 활용방안",
-        "STP전략",
-        "데이터 확보방안",
-      ];
-  
-      document.getElementById("sendButton").addEventListener("click", async function() {
-        $(".resultText").text("");
-        $(".resultText").append("<div class='loading'></div>");
-        $(".resultText").text("");
-        $(".resultText").append("<div class='loading'></div>");
+      const section_list = ['제안배경 및 필요성', '개발목표', '개발내용', '기대효과 및 활용방안', 'STP전략', '데이터 확보방안'];
+
+      document.getElementById('sendButton').addEventListener('click', async function () {
+        $('.resultText').text('');
+        $('.resultText').append("<div class='loading'></div>");
+        $('.resultText').text('');
+        $('.resultText').append("<div class='loading'></div>");
         let inputLink = document.querySelector('.inputLink');
         let topic = document.querySelector('input.input_topic').value;
-        let url = 'http://localhost:8006/receive_rag'
+        let url = 'http://localhost:32768//receive_rag';
         let url_value = inputLink.value.trim();
 
-        if (url_value == "") {
-            url_value = 'http://google.com';
+        if (url_value == '') {
+          url_value = 'http://google.com';
         }
 
-        const fetchPromises = section_list.map(async section => {
-            let data = JSON.stringify({ 
-                topic: topic,
-                section: section,
-                input_link: url_value
-            });
+        const fetchPromises = section_list.map(async (section) => {
+          let data = JSON.stringify({
+            topic: topic,
+            section: section,
+            input_link: url_value,
+          });
 
-        try {
+          try {
             let response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: data
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: data,
             });
 
             if (response.ok) {
-                let result = await response.json();
-                appendResult(section, result); 
+              let result = await response.json();
+              appendResult(section, result);
             } else {
-                console.error('Server responded with error:', response.statusText);
+              console.error('Server responded with error:', response.statusText);
             }
-
-        } catch (error) {
+          } catch (error) {
             console.error('Error:', error);
-        }
-    });
+          }
+        });
 
-    await Promise.all(fetchPromises);
-    });
+        await Promise.all(fetchPromises);
+      });
 
-    function appendResult(any_section, result){
-      let findH1 = $("h1:contains('" + any_section + "')");
-      let resultHtml = "<p>" + result + "</p>";
-      findH1.closest(".result").find(".resultText").append(resultHtml)
-      findH1.closest(".result").find(".resultText > .loading").remove();
+      function appendResult(any_section, result) {
+        let findH1 = $("h1:contains('" + any_section + "')");
+        let resultHtml = '<p>' + result + '</p>';
+        findH1.closest('.result').find('.resultText').append(resultHtml);
+        findH1.closest('.result').find('.resultText > .loading').remove();
 
-      let result_1 = result.replace(/<br>/g, '');
-      let result_2 = result_1.replace(/<b>/g, '');
-      let result_3 = result_2.replace(/<\/b>/g, '');
-      let result_4 = result_3.replace(/<\/ul>/g, '');
-      let result_5 = result_4.replace(/<ul>/g, '');
-      let result_6 = result_5.replace(/<li>/g, '');
-      let result_7 = result_6.replace(/<\/li>/g, '');
-      let result_8 = result_7.replace(/<\/a>/g, '');
-      let result_9 = result_8.replace(/<a/g, '');
-      let result_10 = result_9.replace(/>/g, '');
-      let result_11 = result_10.replace(/href=/g, '');
-      let result_12 = result_11.replace(/style="color:blue;"/g, '');
+        let result_1 = result.replace(/<br>/g, '');
+        let result_2 = result_1.replace(/<b>/g, '');
+        let result_3 = result_2.replace(/<\/b>/g, '');
+        let result_4 = result_3.replace(/<\/ul>/g, '');
+        let result_5 = result_4.replace(/<ul>/g, '');
+        let result_6 = result_5.replace(/<li>/g, '');
+        let result_7 = result_6.replace(/<\/li>/g, '');
+        let result_8 = result_7.replace(/<\/a>/g, '');
+        let result_9 = result_8.replace(/<a/g, '');
+        let result_10 = result_9.replace(/>/g, '');
+        let result_11 = result_10.replace(/href=/g, '');
+        let result_12 = result_11.replace(/style="color:blue;"/g, '');
 
-      sessionStorage.setItem(any_section, result_12);
-    }
-
-    document.querySelector('button.download').addEventListener('click', function () {
-      let sectionData = {};
-      for (let i = 0; i < sessionStorage.length; i++) {
-        const key = sessionStorage.key(i);
-        sectionData[key] = sessionStorage.getItem(key);
+        sessionStorage.setItem(any_section, result_12);
       }
 
-      fetch('/downloadDocx', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(sectionData),
-      })
-      .then(response => {
-        if (response.ok) return response.blob();
-        throw new Error('Network response was not ok.');
-      })
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = "SurdreamDocument.docx";
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      })
-      .catch(error => console.error('Error:', error));
-    });
+      document.querySelector('button.download').addEventListener('click', function () {
+        let sectionData = {};
+        for (let i = 0; i < sessionStorage.length; i++) {
+          const key = sessionStorage.key(i);
+          sectionData[key] = sessionStorage.getItem(key);
+        }
 
+        fetch('/downloadDocx', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(sectionData),
+        })
+          .then((response) => {
+            if (response.ok) return response.blob();
+            throw new Error('Network response was not ok.');
+          })
+          .then((blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'SurdreamDocument.docx';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+          })
+          .catch((error) => console.error('Error:', error));
+      });
     </script>
   </body>
 </html>
